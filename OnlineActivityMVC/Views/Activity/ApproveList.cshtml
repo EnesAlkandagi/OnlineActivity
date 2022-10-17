@@ -1,0 +1,165 @@
+@model ActivityViewModel
+
+@{
+    ViewData["Title"] = "Etkinlik Talepleri";
+    Layout = "_Layout";
+}
+
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+    <!--begin::Subheader-->
+    <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+        <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+            <!--begin::Details-->
+            <div class="d-flex align-items-center flex-wrap mr-2">
+                <!--begin::Title-->
+                <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Onay Bekleyen Etkinlikler</h5>
+                <!--end::Title-->
+                <!--begin::Separator-->
+                <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-5 bg-gray-200"></div>
+                <!--end::Separator-->
+                <!--begin::Search Form-->
+                <div class="d-flex align-items-center" id="kt_subheader_search">
+                    <span class="text-dark-50 font-weight-bold" id="kt_subheader_total">@Model.Activities.Count Adet</span>
+                </div>
+                <!--end::Search Form-->
+            </div>
+            <!--end::Details-->
+        </div>
+    </div>
+    <!--end::Subheader-->
+    <!--begin::Entry-->
+    <div class="d-flex flex-column-fluid">
+        <!--begin::Container-->
+        <div class="container">
+            <!--begin::Row-->
+            <div class="row">
+                @foreach (var activity in Model.Activities)
+                {
+                    <div class="col-xl-6">
+                        <!--begin::Card-->
+                        <div class="card card-custom gutter-b card-stretch">
+                            <!--begin::Body-->
+                            <div class="card-body">
+                                <!--begin::Section-->
+                                <div class="d-flex align-items-center">
+                                    <!--begin::Pic-->
+                                    <div class="flex-shrink-0 mr-4 symbol symbol-65 symbol-circle">
+                                        <img src="https://picsum.photos/200/300" alt="image"/>
+                                    </div>
+                                    <!--end::Pic-->
+                                    <!--begin::Info-->
+                                    <div class="d-flex flex-column mr-auto">
+                                        <!--begin: Title-->
+                                        <a href="#" class="card-title text-hover-primary font-weight-bolder font-size-h5 text-dark mb-1">
+                                            @if (activity.Name.Length > 50)
+                                            {
+                                                <div>@activity.Name[..Math.Min(@activity.Name.Length, 50)]...</div>
+                                            }
+                                            else
+                                            {
+                                                @activity.Name
+                                            }
+                                        </a>
+                                        <span class="text-muted font-weight-bold">@activity.Category.Name</span>
+                                        <!--end::Title-->
+                                    </div>
+                                    <!--end::Info-->
+                                </div>
+                                <!--end::Section-->
+                                <!--begin::Content-->
+                                <div class="d-flex flex-wrap mt-14">
+                                    <div class="mr-12 d-flex flex-column mb-7">
+                                        <span class="d-block font-weight-bold mb-4">Şehir</span>
+                                        <span class="btn btn-bg-success btn-sm font-weight-bold btn-upper btn-text">@activity.City.Name</span>
+                                    </div>
+                                    <div class="mr-12 d-flex flex-column mb-7">
+                                        <span class="d-block font-weight-bold mb-4">Etkinlik Tarihi</span>
+                                        <span class="btn btn-light-primary btn-sm font-weight-bold btn-upper btn-text">@activity.HappenTime</span>
+                                    </div>
+                                    <div class="mr-12 d-flex flex-column mb-7">
+                                        <span class="d-block font-weight-bold mb-4">Son Başvuru Tarihi</span>
+                                        <span class="btn btn-light-danger btn-sm font-weight-bold btn-upper btn-text">@activity.Deadline</span>
+                                    </div>
+                                </div>
+                                <!--end::Content-->
+                                <!--begin::Text-->
+                                @if (!string.IsNullOrEmpty(activity.Detail))
+                                {
+                                    @if (activity.Detail.Length > 230)
+                                    {
+                                        <p class="mb-7 mt-3">@activity.Detail[..Math.Min(@activity.Detail.Length, 230)]...</p>
+                                    }
+                                    else
+                                    {
+                                        <p class="mb-7 mt-3">@activity.Detail</p>
+                                    }
+                                }
+                                <!--end::Text-->
+                                <div class="d-flex flex-wrap">
+                                    <!--begin: Item-->
+                                    <div class="mr-12 d-flex flex-column">
+                                        <span class="font-weight-bolder">Adres</span>
+                                        @if (@activity.Address.Length > 150)
+                                        {
+                                            <p class="mb-7 mt-1">@activity.Address[..Math.Min(@activity.Address.Length, 150)]...</p>
+                                        }
+                                        else
+                                        {
+                                            <p class="mb-7 mt-1">@activity.Address</p>
+                                        }
+                                    </div>
+                                </div>
+                                <!--begin::Blog-->
+                                <div class="d-flex flex-wrap">
+                                    <!--begin: Item-->
+                                    <div class="mr-12 d-flex flex-column mb-7">
+                                        <span class="font-weight-bolder mb-4">Katılım Ücreti</span>
+                                        @if (activity.IsTicket)
+                                        {
+                                            <span class="font-weight-bold text-dark-50 pt-1">
+                                                @activity.Price ₺
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="font-weight-bold text-dark-50 pt-1">
+                                                Ücretsiz
+                                            </span>
+                                        }
+                                    </div>
+
+                                    <div class="mr-12 d-flex flex-column mb-7">
+                                        <span class="font-weight-bolder mb-4">Kontenjan</span>
+                                        <span class="font-weight-bold text-dark-50 pt-1">
+                                            @activity.Quota
+                                        </span>
+                                    </div>
+                                </div>
+                                <!--end::Blog-->
+                            </div>
+                            <!--end::Body-->
+                            <!--begin::Footer-->
+                            <div class="card-footer d-flex align-items-center">
+                                <div class="d-flex">
+                                    <div class="d-flex align-items-center mr-7">
+                                        <a  asp-controller="Activity" asp-action="ApproveActivity" asp-route-id=@activity.Id class="btn btn-primary btn-sm text-uppercase font-weight-bolder mt-5 mt-sm-0 mr-auto mr-sm-0 ml-sm-auto">Onayla</a>
+                                    </div>
+                                    <div class="d-flex align-items-center mr-7">
+                                        <a  asp-controller="Activity" asp-action="RejectedActivity" asp-route-id=@activity.Id class="btn btn-light-danger btn-sm text-uppercase font-weight-bolder mt-5 mt-sm-0 mr-auto mr-sm-0 ml-sm-auto">Reddet</a>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!--end::Footer-->
+                        </div>
+                        <!--end::Card-->
+                    </div>
+                }
+
+            </div>
+            <!--end::Row-->
+        </div>
+        <!--end::Container-->
+    </div>
+    <!--end::Entry-->
+</div>

@@ -2,6 +2,7 @@
 using Entities.Abstract;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using Core.Helpers;
 
 namespace DataAccess.EntityFramework
 {
@@ -15,6 +16,7 @@ namespace DataAccess.EntityFramework
         {
             Context = context;
         }
+
         public void Add(TEntity entity)
         {
             Context.Entry(entity).State = EntityState.Added;
@@ -23,7 +25,6 @@ namespace DataAccess.EntityFramework
 
         public void Delete(TEntity entity)
         {
-
             Context.Entry(entity).State = EntityState.Deleted;
             Context.SaveChanges();
         }
@@ -33,11 +34,17 @@ namespace DataAccess.EntityFramework
             return Context.Set<TEntity>().FirstOrDefault(predicate);
         }
 
-        public List<TEntity> GetAll(Expression<Func<TEntity, bool>> filter = null)
+        public List<TEntity> GetAll(Expression<Func<TEntity, bool>> filter = null,
+            params Expression<Func<TEntity, object>>[] includeEntities)
         {
-            return filter == null
-                ? Context.Set<TEntity>().AsNoTracking().ToList()
-                : Context.Set<TEntity>().Where(filter).AsNoTracking().ToList();
+            var list = Context.Set<TEntity>().AsQueryable();
+            if (includeEntities.Length > 0)
+                list = list.IncludeMultiple(includeEntities);
+
+            if (filter != null)
+                list = list.Where(filter).AsNoTracking().AsQueryable();
+
+            return list.ToList();
         }
 
         public void Update(TEntity entity)

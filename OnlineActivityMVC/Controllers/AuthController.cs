@@ -8,10 +8,12 @@ namespace OnlineActivityMVC.Controllers
     public class AuthController : Controller
     {
         IAuthService _authService;
+        IFirmService _firmService;
 
-        public AuthController(IAuthService authService, ITokenHelper tokenHelper)
+        public AuthController(IAuthService authService, IFirmService firmService)
         {
             _authService = authService;
+            _firmService = firmService;
         }
 
         public IActionResult Login()
@@ -49,6 +51,17 @@ namespace OnlineActivityMVC.Controllers
             }
 
             return Json(new {success = false, message = result.Message});
+        }
+
+        [HttpPost]
+        public IActionResult RegisterFirm(AuthViewModel authViewModel)
+        {
+            var result = _firmService.RegisterFirm(authViewModel.firmRegisterDto);
+            if (result.Success)
+            {
+                return Json(new { success = true, message = result.Message });
+            }
+            return Json(new { success = false, message = result.Message });
         }
     }
 }

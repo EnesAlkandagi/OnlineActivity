@@ -1,4 +1,5 @@
-﻿using Entities.Dtos.Concrete.UserDtos;
+﻿using Entities.Dtos.Concrete.FirmDtos;
+using Entities.Dtos.Concrete.UserDtos;
 
 namespace OnlineActivityMVC.Models
 {
@@ -6,5 +7,6 @@ namespace OnlineActivityMVC.Models
     {
         public UserRegisterDto userRegisterDto { get; set; }
         public UserLoginDto userLoginDto { get; set; }
+        public FirmRegisterDto firmRegisterDto { get; set; }
     }
 }

@@ -1,0 +1,233 @@
+@model ActivityViewModel
+
+@{
+    ViewData["Title"] = "Activity";
+    Layout = "_Layout";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base href="../../../../">
+    <meta charset="utf-8" />
+    <title>Sign In | Keenthemes</title>
+    <meta name="description" content="Singin page example" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="canonical" href="https://keenthemes.com/metronic" />
+    <!--begin::Fonts-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
+    <!--end::Fonts-->
+    <!--begin::Page Custom Styles(used by this page)-->
+    <link href="~/metronic/theme/demo1/dist/assets/css/pages/login/classic/login-2.css" rel="stylesheet" />
+    <!--end::Page Custom Styles-->
+    <!--begin::Global Theme Styles(used by all pages)-->
+    <link href="~/metronic/theme/demo1/dist/assets/plugins/global/plugins.bundle.css" rel="stylesheet" />
+    <link href="~/metronic/theme/demo1/dist/assets/plugins/custom/prismjs/prismjs.bundle.css" rel="stylesheet" />
+    <link href="~/metronic/theme/demo1/dist/assets/css/style.bundle.css" rel="stylesheet" />
+    <!--end::Global Theme Styles-->
+    <!--begin::Layout Themes(used by all pages)-->
+    <link href="~/metronic/theme/demo1/dist/assets/css/themes/layout/header/base/light.css" rel="stylesheet" />
+    <link href="~/metronic/theme/demo1/dist/assets/css/themes/layout/header/menu/light.css" rel="stylesheet" />
+    <link href="~/metronic/theme/demo1/dist/assets/css/themes/layout/brand/dark.css" rel="stylesheet" />
+    <link href="~/metronic/theme/demo1/dist/assets/css/themes/layout/aside/dark.css" rel="stylesheet" />
+
+    <!--end::Layout Themes-->
+    <link rel="shortcut icon" href="~/metronic/theme/demo1/dist/assets/media/logos/favicon.ico" />
+</head>
+<body>
+    <div class="d-flex flex-column-fluid">
+        <!--begin::Container-->
+        <div class="container">
+            <!--begin::Card-->
+            <div class="card card-custom card-transparent">
+                <div class="card-body p-0">
+                    <!--begin::Card-->
+                    <div class="card card-custom card-shadowless rounded-top-0">
+                        <!--begin::Body-->
+                        <div class="card-body p-0">
+                            <div class="row justify-content-center py-8 px-8 py-lg-15 px-lg-10">
+                                <div id="activityForm" class="col-xl-12 col-xxl-10">
+                                    <form asp-controller="Activity" asp-action="Create" method="post" class="form">
+                                        <div class="row justify-content-center">
+                                            <div class="col-xl-9">
+                                                <h5 class="text-dark font-weight-bold mb-10">Etkinliğini Oluştur:</h5>
+                                                <!--begin::Group-->
+                                                <div class="form-group row">
+                                                    <label class="col-xl-3 col-lg-3 col-form-label text-left">Etkinlik Afişi</label>
+                                                    <div class="col-lg-9 col-xl-9">
+                                                        <div class="image-input image-input-outline" id="kt_user_add_avatar">
+                                                            <div class="image-input-wrapper" style="background-image: url(assets/media/users/100_6.jpg)"></div>
+                                                            <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="Change avatar">
+                                                                <i class="fa fa-pen icon-sm text-muted"></i>
+                                                                <input type="file" name="profile_avatar" accept=".png, .jpg, .jpeg" />
+                                                                <input type="hidden" name="profile_avatar_remove" />
+                                                            </label>
+                                                            <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="cancel" data-toggle="tooltip" title="Cancel avatar">
+                                                                <i class="ki ki-bold-close icon-xs text-muted"></i>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--end::Group-->
+                                                <!--begin::Group-->
+                                                <div class="form-group row">
+                                                    <label class="col-xl-3 col-lg-3 col-form-label">Etlinlik Adı</label>
+                                                    <div class="col-lg-9 col-xl-9">
+                                                        <input asp-for="ActivityCreateDto.Name" class="form-control form-control-solid form-control-lg" name="aName" type="text" value="" />
+                                                    </div>
+                                                </div>
+                                                <!--end::Group-->
+                                                <!--begin::Group-->
+                                                <div class="form-group row">
+                                                    <label class="col-form-label col-xl-3 col-lg-3">Kategori</label>
+                                                    <div class="col-xl-9 col-lg-9">
+                                                        <select asp-for="ActivityCreateDto.CategoryId" class="form-control form-control-lg form-control-solid" id="aCategory">
+                                                            @foreach (var category in @Model.Categories)
+                                                            {
+                                                                <option value=@category.Id>@category.Name</option>
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <!--end::Group-->
+                                                <!--begin::Group-->
+                                                <div class="form-group row">
+                                                    <label class="col-xl-3 col-lg-3 col-form-label">Kontenjan Sayısı</label>
+                                                    <div class="col-lg-9 col-xl-9">
+                                                        <input asp-for="ActivityCreateDto.Quota" class="form-control form-control-solid form-control-lg" name="aQuota" type="number" value="" />
+                                                    </div>
+                                                </div>
+                                                <!--end::Group-->
+                                                <!--begin::Group-->
+                                                <div class="form-group row">
+                                                    <label class="col-xl-3 col-lg-3 col-form-label">Açıklama</label>
+                                                    <div class="col-lg-9 col-xl-9">
+                                                        <textarea asp-for="ActivityCreateDto.Detail" class="form-control form-control-solid form-control-lg" name="aDetail" value="" rows="5"></textarea>
+                                                    </div>
+                                                </div>
+                                                <!--end::Group-->
+                                                <!--begin::Group-->
+                                                <div class="form-group">
+                                                    <label>Adres Bilgisi</label>
+                                                    <input asp-for="ActivityCreateDto.Address" type="text" class="form-control form-control-solid form-control-lg" name="aAddress" placeholder="Adres" value="" />
+                                                    <span class="form-text text-muted">Adres bilgisi katılımcılar için önemlidir.</span>
+                                                </div>
+                                                <!--end::Group-->
+                                                <!--begin::Row-->
+                                                <div class="row">
+                                                    <div class="col-xl-6">
+                                                        <!--begin::Group-->
+                                                        <div class="form-group">
+                                                            <label>Şehir</label>
+                                                            <select asp-for="ActivityCreateDto.CityId" id="aCity" class="form-control form-control-solid form-control-lg">
+                                                                @foreach (var city in @Model.Cities)
+                                                                {
+                                                                    <option value=@city.Id>@city.Name</option>
+                                                                }
+                                                            </select>
+                                                        </div>
+                                                        <!--end::Group-->
+                                                    </div>
+                                                    <div class="col-xl-6">
+                                                        <!--begin::Group-->
+                                                        <div class="form-group">
+                                                            <label>Ülke</label>
+                                                            <input type="text" class="form-control form-control-solid form-control-lg" readonly name="state" placeholder="Ülke" value="Türkiye" />
+                                                        </div>
+                                                        <!--end::Group-->
+                                                    </div>
+                                                </div>
+                                                <!--end::Row-->
+                                                <!--begin::Row-->
+                                                <div class="row">
+                                                    <div class="col-xl-6">
+                                                        <!--begin::Group-->
+                                                        <div class="form-group row">
+                                                            <label>Etkinlik Tarihi - Saati</label>
+
+                                                            <div class="input-group date" id="kt_datetimepicker_1" data-target-input="nearest">
+                                                                <input asp-for="ActivityCreateDto.HappenTime" name="aHappenTime" type="text" class="form-control form-control-solid form-control-lg datetimepicker-input" placeholder="Etkinlik tarihini ve saatini seçiniz." data-target="#kt_datetimepicker_1" />
+                                                                <div class="input-group-append" data-target="#kt_datetimepicker_1" data-toggle="datetimepicker">
+                                                                    <span class="input-group-text">
+                                                                        <i class="ki ki-calendar"></i>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--end::Group-->
+                                                    </div>
+                                                    <div class="col-xl-6">
+                                                        <!--begin::Group-->
+                                                        <div class="form-group row">
+                                                            <label>Son Başvuru Tarihi - Saati</label>
+                                                            <div class="input-group date" id="kt_datetimepicker_2" data-target-input="nearest">
+                                                                <input asp-for="ActivityCreateDto.Deadline" name="aDeadline" type="text" class="form-control form-control-solid form-control-lg datetimepicker-input" placeholder="Son başvuru tarihi ve saatini seçiniz." data-target="#kt_datetimepicker_2" />
+                                                                <div class="input-group-append" data-target="#kt_datetimepicker_2" data-toggle="datetimepicker">
+                                                                    <span class="input-group-text">
+                                                                        <i class="ki ki-calendar"></i>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--end::Group-->
+                                                    </div>
+                                                </div>
+                                                <!--end::Row-->
+                                                <!--begin::Row-->
+                                                <div class="row">
+                                                    <div class="col-xl-6">
+                                                        <!--begin::Group-->
+                                                        <div class="form-group">
+                                                            <label class="mb-4">Etlinlik Türü</label>
+                                                            <div class="radio-inline">
+                                                                <label class="radio radio-success">
+                                                                    <input asp-for="ActivityCreateDto.IsTicket" value="false" type="radio" name="aIsTicket" checked="checked" />
+                                                                    <span></span>
+                                                                    Ücretsiz
+                                                                </label>
+                                                                <label class="radio radio-success">
+                                                                    <input asp-for="ActivityCreateDto.IsTicket" value="true" type="radio" name="aIsTicket" />
+                                                                    <span></span>
+                                                                    Ücretli
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <!--end::Group-->
+                                                    </div>
+                                                    <div id="priceCol" class="col-xl-6">
+                                                        <!--begin::Group-->
+                                                        <div class="form-group">
+                                                            <label>Etkinlik Ücreti</label>
+                                                            <input asp-for="ActivityCreateDto.Price" type="number" class="form-control form-control-solid form-control-lg" name="aPrice" placeholder="Etkinlik ücretini giriniz." value="" />
+                                                            <span class="form-text text-muted">Etkinlik ücretini giriniz.</span>
+                                                        </div>
+                                                        <!--end::Group-->
+                                                    </div>
+                                                </div>
+                                                <!--end::Row-->
+                                                <div class="d-flex justify-content-end border-top pt-10 mt-15">
+                                                    <div>
+                                                        <button id="activity_submit" type="button" class="btn btn-success font-weight-bolder px-9 py-4">Kaydet</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!--end::Body-->
+                    </div>
+                    <!--end::Card-->
+                </div>
+            </div>
+            <!--end::Card-->
+        </div>
+        <!--end::Container-->
+    </div>
+    <script src="~/metronic/theme/demo1/dist/assets/plugins/global/plugins.bundle.js"></script>
+    <script src="~/metronic/theme/demo1/dist/assets/plugins/custom/prismjs/prismjs.bundle.js"></script>
+    <script src="~/metronic/theme/demo1/dist/assets/js/scripts.bundle.js"></script>
+    <script src="~/js/pages/Activity/activity.js"></script>
+</body>
+</html>

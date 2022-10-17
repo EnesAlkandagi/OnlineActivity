@@ -32,7 +32,7 @@ namespace Business.Concrete
         public IDataResult<List<Activity>> GetList(ActivityFilterDto activityFilterDto)
         {
             var predicate = PredicateBuilder.True<Activity>();
-            
+
             if (activityFilterDto.Id > 0)
             {
                 predicate = predicate.And(a => a.Id == activityFilterDto.Id);
@@ -58,24 +58,46 @@ namespace Business.Concrete
                 predicate = predicate.And(a => a.CreatedBy == activityFilterDto.CreatedBy);
             }
 
-            if (activityFilterDto.ActivityStatus is not ActivityStatus.Cancel)
+            if (activityFilterDto.ActivityStatus > 0)
             {
                 predicate = predicate.And(a => a.ActivityStatus == activityFilterDto.ActivityStatus);
             }
 
-            var activities = _activityDal.GetAll(predicate);
+            var activities = _activityDal.GetAll(predicate, a => a.Category, a => a.City);
             return new SuccessDataResult<List<Activity>>(activities);
         }
 
-        public IDataResult<Activity> GetById(ActivityFilterDto activityFilterDto)
+        public IDataResult<ActivityDto> GetById(ActivityFilterDto activityFilterDto)
         {
-            var isActivityExist = _activityDal.Get(a => a.Id == activityFilterDto.Id);
+            var isActivityExist = _activityDal.Get(a =>
+                a.Id == activityFilterDto.Id && a.ActivityStatus == ActivityStatus.Approved);
             if (isActivityExist is null)
             {
-                return new ErrorDataResult<Activity>("Aktivite bulunamadı!");
+                return new ErrorDataResult<ActivityDto>("Aktivite bulunamadı!");
             }
 
-            return new SuccessDataResult<Activity>(isActivityExist);
+            var ratio = (double) isActivityExist.ParticipantCount / isActivityExist.Quota;
+            var solidityRatio = Convert.ToInt32(Math.Round(ratio, 2) * 100);
+
+            var activityDto = new ActivityDto
+            {
+                Id = isActivityExist.Id,
+                Address = isActivityExist.Address,
+                Category = _categoryDal.Get(c => c.Id == isActivityExist.CategoryId),
+                City = _cityDal.Get(c => c.Id == isActivityExist.CityId),
+                Deadline = isActivityExist.Deadline,
+                Detail = isActivityExist.Detail,
+                Name = isActivityExist.Name,
+                Price = isActivityExist.Price,
+                Quota = isActivityExist.Quota,
+                ActivityStatus = isActivityExist.ActivityStatus,
+                HappenTime = isActivityExist.HappenTime,
+                IsTicket = isActivityExist.IsTicket,
+                ParticipantCount = isActivityExist.ParticipantCount,
+                SolidityRatio = solidityRatio
+            };
+
+            return new SuccessDataResult<ActivityDto>(activityDto);
         }
 
         public IResult Create(ActivityCreateDto activityCreateDto)
@@ -106,15 +128,15 @@ namespace Business.Concrete
                 Detail = activityCreateDto.Detail,
                 CategoryId = activityCreateDto.CategoryId,
                 CityId = activityCreateDto.CityId,
-                Address = activityCreateDto.Adress,
+                Address = activityCreateDto.Address,
                 Quota = activityCreateDto.Quota,
                 IsTicket = activityCreateDto.IsTicket,
                 Price = activityCreateDto.IsTicket ? activityCreateDto.Price : 0,
                 CreatedBy = activityCreateDto.CreatedBy,
                 ParticipantCount = 0,
                 ActivityStatus = ActivityStatus.WaitingForApproval
-                
             };
+            _activityDal.Add(activity);
             return new SuccessResult("Aktivite başarıyla oluşturuldu.");
         }
 
@@ -125,7 +147,7 @@ namespace Business.Concrete
             {
                 return new ErrorResult("Aktivite bulunamadı");
             }
-            
+
             _activityDal.Delete(isActivityExist);
             return new SuccessResult("Aktivite başarıyla silindi.");
         }
@@ -152,7 +174,7 @@ namespace Business.Concrete
             return new SuccessResult("Aktivite başarıyla güncellenmiştir.");
         }
 
-        public IResult Cancel(ActivityStatusDto activityStatusDto)
+        public IResult UpdateActivityStatus(ActivityStatusDto activityStatusDto)
         {
             var isActivityExist = _activityDal.Get(a => a.Id == activityStatusDto.Id);
             if (isActivityExist is null)
@@ -161,7 +183,7 @@ namespace Business.Concrete
             }
 
             isActivityExist.ActivityStatus = activityStatusDto.ActivityStatus;
-            
+
             _activityDal.Update(isActivityExist);
 
             return new SuccessResult("Aktivite durumu güncellendi");

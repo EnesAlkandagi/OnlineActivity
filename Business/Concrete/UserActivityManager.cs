@@ -31,7 +31,7 @@ public class UserActivityManager : IUserActivityService
         var isActivityExist = _activityDal.Get(a => a.Id == joinActivity.ActivityId);
         if (isActivityExist is null)
         {
-            return new ErrorResult("Etkinlik bulunamadı!"); 
+            return new ErrorResult("Etkinlik bulunamadı!");
         }
 
         if (isActivityExist.Quota == isActivityExist.ParticipantCount)
@@ -49,9 +49,9 @@ public class UserActivityManager : IUserActivityService
 
         var addedUserActivity = new UserActivity
         {
-            UserId = isActivityExist.Id,
+            UserId = isUserExist.Id,
             ActivityId = isActivityExist.Id,
-            ActivityPaidStatus = isActivityExist.IsTicket ? ActivityPaidStatus.Pending : ActivityPaidStatus.None
+            //ActivityPaidStatus = isActivityExist.IsTicket ? ActivityPaidStatus.Pending : ActivityPaidStatus.None
         };
         _userActivityDal.Add(addedUserActivity);
 
@@ -59,5 +59,29 @@ public class UserActivityManager : IUserActivityService
         _activityDal.Update(isActivityExist);
 
         return new SuccessResult("Etkinlik kaydınız başarıyla oluşturulmuştur.");
+    }
+
+    public IDataResult<List<UserActivity>> GetAllPastActivityByUserId(UserActivityFilterDto userActivityFilterDto)
+    {
+        var userActivities =
+            _userActivityDal.GetAll(ua => ua.UserId == userActivityFilterDto.UserId, ua => ua.Activity,
+                ua => ua.Activity.Category, ua => ua.Activity.City);
+
+        var userPastActivitiesList =
+            userActivities.Where(userActivity => userActivity.Activity.HappenTime < DateTime.Now).ToList();
+
+        return new SuccessDataResult<List<UserActivity>>(userPastActivitiesList);
+    }
+
+    public IDataResult<List<UserActivity>> GetAllCurrentActivityByUserId(UserActivityFilterDto userActivityFilterDto)
+    {
+        var userActivities =
+            _userActivityDal.GetAll(ua => ua.UserId == userActivityFilterDto.UserId, ua => ua.Activity.Category,
+                ua => ua.Activity.City);
+
+        var userCurrentActivitiesList =
+            userActivities.Where(userActivity => userActivity.Activity.HappenTime > DateTime.Now).ToList();
+
+        return new SuccessDataResult<List<UserActivity>>(userCurrentActivitiesList);
     }
 }

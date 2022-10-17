@@ -31,7 +31,7 @@ namespace Business.Concrete
 
             if (categoryFilterDto.Id > 0)
             {
-                predicate = predicate.And(c => c.Name.Contains(categoryFilterDto.Name));
+                predicate = predicate.And(c => c.Id == categoryFilterDto.Id);
             }
 
             var categoryList = _categoryDal.GetAll(predicate);

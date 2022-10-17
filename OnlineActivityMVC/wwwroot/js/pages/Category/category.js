@@ -1,27 +1,20 @@
-﻿"use strict";
+"use strict";
 
-var KTCreate = function () {
+var KTCategory = function () {
 
     var _handleCreateForm = function (e) {
         var validation;
-        var form = KTUtil.getById('announcementForm');
+        var form = KTUtil.getById('categoryForm');
 
         // Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
         validation = FormValidation.formValidation(
             form,
             {
                 fields: {
-                    CTitle: {
+                    cName: {
                         validators: {
                             notEmpty: {
-                                message: 'Başlık alanı zorunludur.'
-                            }
-                        }
-                    },
-                    CText: {
-                        validators: {
-                            notEmpty: {
-                                message: 'İçerik alanı zorunludur.'
+                                message: 'Ad alanı zorunludur.'
                             }
                         }
                     },
@@ -33,29 +26,22 @@ var KTCreate = function () {
             }
         );
 
-        $('#announcement_submit').on('click', function (e) {
+        $('#category_submit').on('click', function (e) {
 
             e.preventDefault();
 
-            var _cTitle = $("input[name=CTitle]").val();
-            var _cText = $("textarea[name=CText]").val();
-            var _cCity = $("select[name=CCity]").val();
-            var _announcementCreateModel = {
-
-                createDto: {
-                    Text: _cText,
-                    Title: _cTitle,
-                    CityId: _cCity
-                }
+            var _name = $("input[name=cName]").val();
+            var _addCategoryDto = {
+                Name: _name
             }
 
             validation.validate().then(function (status) {
                 if (status == 'Valid') {
                     $.ajax({
                         type: "POST",
-                        url: "/Announcement/Create",
+                        url: "/Category/Add",
                         dataType: 'json',
-                        data: _announcementCreateModel,
+                        data: _addCategoryDto,
                         success: function (response) {
                             if (response.success) {
                                 swal.fire({
@@ -67,9 +53,8 @@ var KTCreate = function () {
                                         confirmButton: "btn font-weight-bold btn-light-primary"
                                     }
                                 }).then(function () {
-                                    $("input[name=CTitle]").val('');
-                                    $("input[name=CText]").val('');
-                                    location.href = "/Announcement/Index";
+                                    $("input[name=cName]").val('');
+                                    location.href = "/Category/Index";
                                 });
                             } else {
                                 swal.fire({
@@ -115,112 +100,23 @@ var KTCreate = function () {
                 }
             });
         });
-
-        $('#update_announcement_submit').on('click', function (e) {
-
-            e.preventDefault();
-
-            var _cTitle = $("input[name=CTitle]").val();
-            var _cText = $("textarea[name=CText]").val();
-            var _cCity = $("select[name=CCity]").val();
-            var _announcementUpdateModel = {
-                updateDto: {
-                    Text: _cText,
-                    Title: _cTitle,
-                    CityId: _cCity
-                }
-            }
-
-            validation.validate().then(function (status) {
-                if (status == 'Valid') {
-                    $.ajax({
-                        type: "POST",
-                        url: "/Announcement/Update",
-                        dataType: 'json',
-                        data: _announcementUpdateModel,
-                        success: function (response) {
-                            if (response.success) {
-                                swal.fire({
-                                    text: response.message,
-                                    icon: "success",
-                                    buttonsStyling: false,
-                                    confirmButtonText: "Tamam",
-                                    customClass: {
-                                        confirmButton: "btn font-weight-bold btn-light-primary"
-                                    }
-                                }).then(function () {
-                                    $("input[name=CTitle]").val('');
-                                    $("input[name=CText]").val('');
-                                    location.href = "/Announcement/MyAnnouncements";
-                                });
-                            } else {
-                                swal.fire({
-                                    text: response.message,
-                                    icon: "error",
-                                    buttonsStyling: false,
-                                    confirmButtonText: "Tamam",
-                                    customClass: {
-                                        confirmButton: "btn font-weight-bold btn-light-primary"
-                                    }
-                                }).then(function () {
-                                    KTUtil.scrollTop();
-                                });
-                            }
-                        },
-                        error: function () {
-                            swal.fire({
-                                text: "Üzgünüz, kayıt olurken bir sorunla karşılaştık.",
-                                icon: "error",
-                                buttonsStyling: false,
-                                confirmButtonText: "Tamam",
-                                customClass: {
-                                    confirmButton: "btn font-weight-bold btn-light-primary"
-                                }
-                            }).then(function () {
-                                KTUtil.scrollTop();
-                            });
-                        },
-                    });
-
-                } else {
-                    swal.fire({
-                        text: "Üzgünüz, kayıt olurken bir sorunla karşılaştık.",
-                        icon: "error",
-                        buttonsStyling: false,
-                        confirmButtonText: "Tamam",
-                        customClass: {
-                            confirmButton: "btn font-weight-bold btn-light-primary"
-                        }
-                    }).then(function () {
-                        KTUtil.scrollTop();
-                    });
-                }
-            });
-        });
-
 
     }
 
     var _handleUpdateForm = function (e) {
+
         var validation;
-        var form = KTUtil.getById('announcementUpdateForm');
+        var form = KTUtil.getById('categoryUpdateForm');
 
         // Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
         validation = FormValidation.formValidation(
             form,
             {
                 fields: {
-                    CTitle: {
+                    cUpdateName: {
                         validators: {
                             notEmpty: {
-                                message: 'Başlık alanı zorunludur.'
-                            }
-                        }
-                    },
-                    CText: {
-                        validators: {
-                            notEmpty: {
-                                message: 'İçerik alanı zorunludur.'
+                                message: 'Ad alanı zorunludur.'
                             }
                         }
                     },
@@ -232,30 +128,24 @@ var KTCreate = function () {
             }
         );
 
-
-
-        $('#update_announcement_submit').on('click', function (e) {
+        $('#category_update_submit').on('click', function (e) {
 
             e.preventDefault();
 
-            var _cTitle = $("input[name=CTitle]").val();
-            var _cText = $("textarea[name=CText]").val();
-            var _cCity = $("select[name=CCity]").val();
-            var _announcementUpdateModel = {
-                updateDto: {
-                    Text: _cText,
-                    Title: _cTitle,
-                    CityId: _cCity
-                }
+            var _id = $(this).data("id");
+            var _name = $("input[name=cUpdateName]").val();
+            var _updateCategoryDto = {
+                Id: _id,
+                Name: _name
             }
 
             validation.validate().then(function (status) {
                 if (status == 'Valid') {
                     $.ajax({
                         type: "POST",
-                        url: "/Announcement/Update",
+                        url: "/Category/Update",
                         dataType: 'json',
-                        data: _announcementUpdateModel,
+                        data: _updateCategoryDto,
                         success: function (response) {
                             if (response.success) {
                                 swal.fire({
@@ -267,9 +157,8 @@ var KTCreate = function () {
                                         confirmButton: "btn font-weight-bold btn-light-primary"
                                     }
                                 }).then(function () {
-                                    $("input[name=CTitle]").val('');
-                                    $("input[name=CText]").val('');
-                                    location.href = "/Announcement/MyAnnouncements";
+                                    $("input[name=cUpdateName]").val('');
+                                    location.href = "/Category/Index";
                                 });
                             } else {
                                 swal.fire({
@@ -287,7 +176,7 @@ var KTCreate = function () {
                         },
                         error: function () {
                             swal.fire({
-                                text: "Üzgünüz, kayıt olurken bir sorunla karşılaştık.",
+                                text: "Üzgünüz, güncelleme sırasında bir sorunla karşılaştık.",
                                 icon: "error",
                                 buttonsStyling: false,
                                 confirmButtonText: "Tamam",
@@ -302,7 +191,7 @@ var KTCreate = function () {
 
                 } else {
                     swal.fire({
-                        text: "Üzgünüz, kayıt olurken bir sorunla karşılaştık.",
+                        text: "Üzgünüz, güncelleme sırasında bir sorunla karşılaştık.",
                         icon: "error",
                         buttonsStyling: false,
                         confirmButtonText: "Tamam",
@@ -315,28 +204,88 @@ var KTCreate = function () {
                 }
             });
         });
-
     }
 
+    var _handleDelete = function (e) {
 
-    var _handlerTab = function () {
-        $('.nav-tabs a').click(function (e) {
-            e.preventDefault()
-            $(this).tab('show')
+        $('#category_delete').on('click', function (e) {
+
+            e.preventDefault();
+
+            var _id = $(this).data("id");
+
+            swal.fire({
+                title: "Kategoriyi Silmek İstediğinize Emin Misiniz?",
+                type: 'warning',
+                showDenyButton: true,
+                confirmButtonText: 'Evet',
+                denyButtonText: `İptal`,
+                closeOnConfirm: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/Category/Delete",
+                        dataType: 'json',
+                        data: _id,
+                        success: function (response) {
+                            if (response.success) {
+                                swal.fire({
+                                    text: response.message,
+                                    icon: "success",
+                                    buttonsStyling: false,
+                                    confirmButtonText: "Tamam",
+                                    customClass: {
+                                        confirmButton: "btn font-weight-bold btn-light-primary"
+                                    }
+                                }).then(function () {
+                                    location.href = "/Category/Index";
+                                });
+                            } else {
+                                swal.fire({
+                                    text: response.message,
+                                    icon: "error",
+                                    buttonsStyling: false,
+                                    confirmButtonText: "Tamam",
+                                    customClass: {
+                                        confirmButton: "btn font-weight-bold btn-light-primary"
+                                    }
+                                }).then(function () {
+                                    KTUtil.scrollTop();
+                                });
+                            }
+                        },
+                        error: function () {
+                            swal.fire({
+                                text: "Üzgünüz, silme sırasında bir sorunla karşılaştık.",
+                                icon: "error",
+                                buttonsStyling: false,
+                                confirmButtonText: "Tamam",
+                                customClass: {
+                                    confirmButton: "btn font-weight-bold btn-light-primary"
+                                }
+                            }).then(function () {
+                                KTUtil.scrollTop();
+                            });
+                        },
+                    });
+                }
+            });
         });
     }
+
 
     return {
         // public functions
         init: function () {
-            _handlerTab();
             _handleCreateForm();
             _handleUpdateForm();
+            _handleDelete();
         }
     };
 
 }();
 
 jQuery(document).ready(function () {
-    KTCreate.init();
+    KTCategory.init();
 });

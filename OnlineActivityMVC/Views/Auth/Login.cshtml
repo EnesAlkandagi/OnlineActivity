@@ -62,7 +62,8 @@
                                     <h2 class="font-weight-bolder text-dark font-size-h2 font-size-h1-lg">Giriş Yap</h2>
                                     <span class="text-muted font-weight-bold font-size-h4">
                                         veya
-                                        <a href="" class="text-primary font-weight-bolder" id="kt_login_signup">Yeni Hesap Oluştur</a>
+                                        <a href="" class="text-primary font-weight-bolder" id="kt_login_signup">Yeni Hesap Oluştur<br /></a>
+                                        <a href="" class="text-primary font-weight-bolder" id="kt_login_signupFirm">Yeni Firma Hesabı Oluştur</a>
                                     </span>
                                 </div>
                                 <!--end::Title-->
@@ -153,6 +154,75 @@
                                 <div class="form-group d-flex flex-wrap flex-center pb-lg-0 pb-3">
                                     <button type="button" id="kt_login_signup_submit" class="btn btn-primary font-weight-bolder font-size-h6 px-8 py-4 my-3 mx-4">Kaydet</button>
                                     <button type="button" id="kt_login_signup_cancel" class="btn btn-light-primary font-weight-bolder font-size-h6 px-8 py-4 my-3 mx-4">İptal</button>
+                                </div>
+                                <!--end::Form group-->
+                            </form>
+                            <!--end::Form-->
+                        </div>
+
+
+                        <div class="login-form login-signupFirm pt-11">
+                            <!--begin::Form-->
+                            <form asp-controller="Auth" asp-action="RegisterFirm" method="post" class="form" novalidate="novalidate" id="kt_login_signupFirm_form">
+                                <!--begin::Title-->
+                                <div class="text-center pb-8">
+                                    <h2 class="font-weight-bolder text-dark font-size-h2 font-size-h1-lg">Kayıt Ol</h2>
+                                    <p class="text-muted font-weight-bold font-size-h4">Hesabınızı oluşturmak için bilgilerinizi giriniz</p>
+                                </div>
+                                <!--end::Title-->
+                                <!--begin::Form group-->
+                                <div class="form-group">
+                                    <input asp-for="firmRegisterDto.Name" class="form-control form-control-solid h-auto py-7 px-6 rounded-lg font-size-h6" type="text" placeholder="Firma Adı" name="Name" autocomplete="off" />
+                                </div>
+                                <!--end::Title-->
+                                <!--begin::Form group-->
+                                <div class="form-group">
+                                    <input asp-for="firmRegisterDto.Website" class="form-control form-control-solid h-auto py-7 px-6 rounded-lg font-size-h6" type="text" placeholder="Firma Web Sitesi" name="Web" autocomplete="off" />
+                                </div>
+                                <!--end::Form group-->
+                                <!--begin::Form group-->
+                                <div class="form-group">
+                                    <input asp-for="firmRegisterDto.Email" class="form-control form-control-solid h-auto py-7 px-6 rounded-lg font-size-h6" type="email" placeholder="Email" name="EpostaFirm" autocomplete="off" />
+                                </div>
+                                <!--end::Form group-->
+                                <!--begin::Form group-->
+                                <div class="form-group">
+                                    <input asp-for="firmRegisterDto.Password" class="form-control form-control-solid h-auto py-7 px-6 rounded-lg font-size-h6" type="password" placeholder="Şifre" name="RPasswordFirm" autocomplete="off" />
+                                </div>
+                                <!--end::Form group-->
+                                <!--begin::Form group-->
+                                <div class="form-group">
+                                    <input asp-for="firmRegisterDto.ConfirmPassword" class="form-control form-control-solid h-auto py-7 px-6 rounded-lg font-size-h6" type="password" placeholder="Şifre Tekrar" name="ConfirmPasswordFirm" autocomplete="off" />
+                                </div>
+                                <!--end::Form group-->
+                                @*<div class="form-group">
+                                <label style="font-size:1.5rem" class="col-md-8 col-form-label text-lg-right">Kullanıcı Türünü Seçiniz:</label>
+                                <div class="checkbox-inline">
+                                <label style="font-size:1.3rem" class="checkbox">
+                                <input asp-for="registerDto.isOgrenci" type="checkbox" name="isOgrenci" value="true" />
+                                <span></span>
+                                Öğrenci
+                                </label>
+                                <label style="font-size:1.3rem" class="checkbox">
+                                <input asp-for="registerDto.isHayirSever" type="checkbox" name="isHayirsever" value="true" />
+                                <span></span>
+                                Hayırsever
+                                </label>
+                                </div>
+                                </div>*@
+                                <!--begin::Form group-->
+                                <div class="form-group">
+                                    <label class="checkbox mb-0">
+                                        <a href="#"> Tüm şartları ve koşulları  </a>
+                                        <input type="checkbox" name="agree" /> kabul ediyorum.
+                                        <span></span>
+                                    </label>
+                                </div>
+                                <!--end::Form group-->
+                                <!--begin::Form group-->
+                                <div class="form-group d-flex flex-wrap flex-center pb-lg-0 pb-3">
+                                    <button type="button" id="kt_login_signupFirm_submit" class="btn btn-primary font-weight-bolder font-size-h6 px-8 py-4 my-3 mx-4">Kaydet</button>
+                                    <button type="button" id="kt_login_signupFirm_cancel" class="btn btn-light-primary font-weight-bolder font-size-h6 px-8 py-4 my-3 mx-4">İptal</button>
                                 </div>
                                 <!--end::Form group-->
                             </form>

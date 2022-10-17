@@ -1,0 +1,24 @@
+@model DashboardFilterViewModel
+
+<!--begin::Form-->
+<form>
+    <!--begin::Categories-->
+    <div class="form-group mb-11">
+        <label class="font-size-h3 font-weight-bolder text-dark mb-7">Kategoriler</label>
+        <!--begin::Checkbox list-->
+        <div class="checkbox-list">
+            @foreach (var category in @Model.Categories)
+            {
+                <ul class="nav nav-pills nav-pills-sm nav-dark-75">
+                    <li class="nav-item">
+                        <a class="nav-link py-2 px-4" href="@Url.Action("Index", "Home", new {CategoryId = category.Id})">@category.Name</a>
+                    </li>
+                </ul>
+            }
+        </div>
+        <!--end::Checkbox list-->
+    </div>
+    <!--end::Categories-->
+    <button type="submit" class="btn btn-primary font-weight-bolder mr-2 px-8">Temizle</button>
+</form>
+<!--end::Form-->

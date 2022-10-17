@@ -1,186 +1,74 @@
-﻿@{
+﻿@model ActivityViewModel
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <!--begin::Container-->
 <div class="container">
-<!--begin::Page Layout-->
-<div class="d-flex flex-row">
-<!--begin::Aside-->
-<div class="flex-column offcanvas-mobile w-300px w-xl-325px" id="kt_profile_aside">
-    <!--begin::Forms Widget 15-->
-    <div class="card card-custom gutter-b">
-        <!--begin::Body-->
-        <div class="card-body">
-            <!--begin::Form-->
-            <form>
-                <!--begin::Categories-->
-                <div class="form-group mb-11">
-                    <label class="font-size-h3 font-weight-bolder text-dark mb-7">Categories</label>
-                    <!--begin::Checkbox list-->
-                    <div class="checkbox-list">
-                        <label class="checkbox checkbox-lg mb-7">
-                            <input type="checkbox" name="electronics"/>
-                            <span></span>
-                            <div class="font-size-lg text-dark-75 font-weight-bold">Electronics</div>
-                            <div class="ml-auto text-muted font-weight-bold">28</div>
-                        </label>
-                        <label class="checkbox checkbox-lg mb-7">
-                            <input type="checkbox" name="sportsequipment"/>
-                            <span></span>
-                            <div class="font-size-lg text-dark-75 font-weight-bold">Sports Equipments</div>
-                            <div class="ml-auto text-muted font-weight-bold">307</div>
-                        </label>
-                        <label class="checkbox checkbox-lg mb-7">
-                            <input type="checkbox" name="appliances"/>
-                            <span></span>
-                            <div class="font-size-lg text-dark-75 font-weight-bold">Appliances</div>
-                            <div class="ml-auto text-muted font-weight-bold">54</div>
-                        </label>
-                        <label class="checkbox checkbox-lg mb-7">
-                            <input type="checkbox" name="appliances"/>
-                            <span></span>
-                            <div class="font-size-lg text-dark-75 font-weight-bold">Software Solutions</div>
-                            <div class="ml-auto text-muted font-weight-bold">762</div>
-                        </label>
-                        <label class="checkbox checkbox-lg">
-                            <input type="checkbox" name="appliances"/>
-                            <span></span>
-                            <div class="font-size-lg text-dark-75 font-weight-bold">Food &amp; Groceries</div>
-                            <div class="ml-auto text-muted font-weight-bold">95</div>
-                        </label>
-                    </div>
-                    <!--end::Checkbox list-->
+    <!--begin::Page Layout-->
+    <div class="d-flex flex-row">
+        <!--begin::Aside-->
+        <div class="flex-column offcanvas-mobile w-300px w-xl-325px" id="kt_profile_aside">
+            <!--begin::Forms Widget 15-->
+            <div class="card card-custom gutter-b">
+                <!--begin::Body-->
+                <div class="card-body">
+                    @await Component.InvokeAsync("DashboardFilter")
                 </div>
-                <!--end::Categories-->
-                <button type="submit" class="btn btn-primary font-weight-bolder mr-2 px-8">Reset</button>
-                <button type="reset" class="btn btn-clear font-weight-bolder text-muted px-8">Setup</button>
-            </form>
-            <!--end::Form-->
-        </div>
-        <!--end::Body-->
-    </div>
-    <!--end::Forms Widget 15-->
-</div>
-<!--end::Aside-->
-<!--begin::Layout-->
-<div class="flex-row-fluid ml-lg-8">
-    <!--begin::Card-->
-    <div class="card card-custom card-stretch gutter-b">
-        <div class="card-body">
-            <!--begin::Section-->
-            <div class="row">
-                <!--begin::Product-->
-                <div class="col-md-4 col-lg-12 col-xxl-4">
-                    <div class="card card-custom gutter-b card-stretch">
-                        <div class="card-body d-flex flex-column rounded bg-light justify-content-between">
-                            <div class="text-center rounded mb-7">
-                                <img src="assets/media/products/15.png" class="mw-100 w-200px"/>
-                            </div>
-                            <div>
-                                <h4 class="font-size-h5">
-                                    <a href="#" class="text-dark-75 font-weight-bolder">Bose Headphones 700</a>
-                                </h4>
-                                <div class="font-size-h6 text-muted font-weight-bolder">$370.00</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!--end::Product-->
-                <!--begin::Product-->
-                <div class="col-md-4 col-lg-12 col-xxl-4">
-                    <div class="card card-custom gutter-b card-stretch">
-                        <div class="card-body d-flex flex-column rounded bg-light justify-content-between">
-                            <div class="text-center rounded mb-7">
-                                <img src="assets/media/products/16.png" class="mw-100 w-200px"/>
-                            </div>
-                            <div>
-                                <h4 class="font-size-h5">
-                                    <a href="#" class="text-dark-75 font-weight-bolder">Amazon Bip Home</a>
-                                </h4>
-                                <div class="font-size-h6 text-muted font-weight-bolder">$370.00</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!--end::Product-->
-                <!--begin::Product-->
-                <div class="col-md-4 col-lg-12 col-xxl-4">
-                    <div class="card card-custom gutter-b card-stretch">
-                        <div class="card-body d-flex flex-column rounded bg-light justify-content-between">
-                            <div class="text-center rounded mb-7">
-                                <img src="assets/media/products/17.png" class="mw-100 w-200px"/>
-                            </div>
-                            <div>
-                                <h4 class="font-size-h5">
-                                    <a href="#" class="text-dark-75 font-weight-bolder">Black &amp; White Vases</a>
-                                </h4>
-                                <div class="font-size-h6 text-muted font-weight-bolder">$370.00</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!--end::Product-->
-                <!--begin::Product-->
-                <div class="col-md-4 col-lg-12 col-xxl-4">
-                    <div class="card card-custom gutter-b card-stretch">
-                        <div class="card-body d-flex flex-column rounded bg-light justify-content-between">
-                            <div class="text-center rounded mb-7">
-                                <img src="assets/media/products/18.png" class="mw-100 w-200px"/>
-                            </div>
-                            <div>
-                                <h4 class="font-size-h5">
-                                    <a href="#" class="text-dark-75 font-weight-bolder">Spine Friendly Chair</a>
-                                </h4>
-                                <div class="font-size-h6 text-muted font-weight-bolder">$370.00</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!--end::Product-->
-                <!--begin::Product-->
-                <div class="col-md-4 col-lg-12 col-xxl-4">
-                    <div class="card card-custom gutter-b card-stretch">
-                        <div class="card-body d-flex flex-column rounded bg-light justify-content-between">
-                            <div class="text-center rounded mb-7">
-                                <img src="assets/media/products/19.png" class="mw-100 w-200px"/>
-                            </div>
-                            <div>
-                                <h4 class="font-size-h5">
-                                    <a href="#" class="text-dark-75 font-weight-bolder">Yellow Kettle</a>
-                                </h4>
-                                <div class="font-size-h6 text-muted font-weight-bolder">$370.00</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!--end::Product-->
-                <!--begin::Product-->
-                <div class="col-md-4 col-lg-12 col-xxl-4">
-                    <div class="card card-custom gutter-b card-stretch">
-                        <div class="card-body d-flex flex-column rounded bg-light justify-content-between">
-                            <div class="text-center rounded mb-7">
-                                <img src="assets/media/products/20.png" class="mw-100 w-200px"/>
-                            </div>
-                            <div>
-                                <h4 class="font-size-h5">
-                                    <a href="#" class="text-dark-75 font-weight-bolder">Amazing Mats</a>
-                                </h4>
-                                <div class="font-size-h6 text-muted font-weight-bolder">$370.00</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!--end::Product-->
+                <!--end::Body-->
             </div>
-            <!--end::Section-->
+            <!--end::Forms Widget 15-->
         </div>
+        <!--end::Aside-->
+        <!--begin::Layout-->
+        <div class="flex-row-fluid ml-lg-8">
+            <!--begin::Card-->
+            <div class="card card-custom card-stretch gutter-b">
+                <div class="card-body">
+                    <!--begin::Section-->
+                    <div class="row">
+                        <!--begin::Product-->
+                        @foreach (var activity in @Model.Activities)
+                        {
+                            <div class="col-md-4 col-lg-12 col-xxl-4">
+                                <div class="card card-custom gutter-b card-stretch">
+
+                                    <a href="@Url.Action("Index", "Activity", new {Id = activity.Id})">
+                                        <div class="card-body d-flex flex-column rounded bg-light text-center">
+                                            <div class="text-center rounded mb-7">
+                                                <img src="https://picsum.photos/200" class="mw-100 w-200px"/>
+                                            </div>
+                                            <div class="mb-4">
+                                                <h4 class="font-size-h6">
+                                                    <div class="text-dark-75 font-weight-bolder">@activity.Name[..Math.Min(activity.Name.Length, 25)]</div>
+                                                </h4>
+                                                <div class="font-size-h5 text-muted font-weight-bolder">@activity.Category.Name</div>
+                                            </div>
+                                            <span class="label label-inline label-lg label-secondary btn-sm font-weight-bold">@activity.City.Name</span>
+                                            @if (@activity.IsTicket)
+                                            {
+                                                <span class="label label-inline label-lg label-light-primary btn-sm font-weight-bold mt-4">@activity.Price ₺</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="label label-inline label-lg label-light-primary btn-sm font-weight-bold mt-4">Ücretsiz</span>
+                                            }
+                                        </div>
+                                    </a>
+
+                                </div>
+                            </div>
+                        }
+                        <!--end::Product-->
+                    </div>
+                    <!--end::Section-->
+                </div>
+            </div>
+            <!--end::Card-->
+        </div>
+        <!--end::Layout-->
     </div>
-    <!--end::Card-->
-</div>
-<!--end::Layout-->
-</div>
-<!--end::Page Layout-->
+    <!--end::Page Layout-->
 </div>
 <!--end::Container-->
-

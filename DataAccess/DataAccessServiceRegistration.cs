@@ -22,6 +22,7 @@ namespace DataAccess
             services.AddScoped<IRoleDal, EfRoleDal>();
             services.AddScoped<IUserRoleDal, EfUserRoleDal>();
             services.AddScoped<IUserActivityDal, EfUserActivityDal>();
+            services.AddScoped<IFirmDal, EfFirmDal>();
 
             return services;
         }

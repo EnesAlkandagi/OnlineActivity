@@ -31,6 +31,10 @@ namespace DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("ActivityStatus")
+                        .HasColumnType("int")
+                        .HasColumnName("status");
+
                     b.Property<string>("Address")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
@@ -44,6 +48,10 @@ namespace DataAccess.Migrations
                         .HasColumnType("int")
                         .HasColumnName("city_id");
 
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int")
+                        .HasColumnName("created_by");
+
                     b.Property<DateTime>("Deadline")
                         .HasColumnType("datetime2")
                         .HasColumnName("deadline");
@@ -56,10 +64,6 @@ namespace DataAccess.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("happen_time");
 
-                    b.Property<bool>("IsApproved")
-                        .HasColumnType("bit")
-                        .HasColumnName("is_approved");
-
                     b.Property<bool>("IsTicket")
                         .HasColumnType("bit")
                         .HasColumnName("is_ticket");
@@ -68,6 +72,10 @@ namespace DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("name");
+
+                    b.Property<int>("ParticipantCount")
+                        .HasColumnType("int")
+                        .HasColumnName("participant_count");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)")
@@ -82,6 +90,8 @@ namespace DataAccess.Migrations
                     b.HasIndex("CategoryId");
 
                     b.HasIndex("CityId");
+
+                    b.HasIndex("CreatedBy");
 
                     b.ToTable("activity");
                 });
@@ -221,6 +231,30 @@ namespace DataAccess.Migrations
                     b.ToTable("user");
                 });
 
+            modelBuilder.Entity("Entities.Concrete.UserActivity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("ActivityId")
+                        .HasColumnType("int")
+                        .HasColumnName("activity_id");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ActivityId");
+
+                    b.ToTable("user_activity");
+                });
+
             modelBuilder.Entity("Entities.Concrete.UserRole", b =>
                 {
                     b.Property<int>("Id")
@@ -261,9 +295,28 @@ namespace DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Entities.Concrete.User", "User")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Category");
 
                     b.Navigation("City");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Entities.Concrete.UserActivity", b =>
+                {
+                    b.HasOne("Entities.Concrete.Activity", "Activity")
+                        .WithMany()
+                        .HasForeignKey("ActivityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Activity");
                 });
 
             modelBuilder.Entity("Entities.Concrete.UserRole", b =>

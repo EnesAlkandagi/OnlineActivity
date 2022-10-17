@@ -13,10 +13,10 @@ namespace Business.Abstract
     public interface IActivityService
     {
         IDataResult<List<Activity>> GetList(ActivityFilterDto activityFilterDto);
-        IDataResult<Activity> GetById(ActivityFilterDto activityFilterDto);
+        IDataResult<ActivityDto> GetById(ActivityFilterDto activityFilterDto);
         IResult Create(ActivityCreateDto activityCreateDto);
         IResult Delete(int id);
         IResult Update(ActivityUpdateDto activityUpdateDto);
-        IResult Cancel(ActivityStatusDto activityStatusDto);
+        IResult UpdateActivityStatus(ActivityStatusDto activityStatusDto);
     }
 }

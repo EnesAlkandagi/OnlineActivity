@@ -16,7 +16,7 @@ namespace Entities.Dtos.Concrete.ActivityDtos
         public string? Detail { get; set; }
         public int CategoryId { get; set; }
         public int CityId { get; set; }
-        public string Adress { get; set; }
+        public string Address { get; set; }
         public int Quota { get; set; }
         public bool IsTicket { get; set; }
         public decimal Price { get; set; }

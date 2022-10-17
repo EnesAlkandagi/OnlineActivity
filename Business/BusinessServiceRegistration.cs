@@ -17,6 +17,7 @@ namespace Business
             services.AddScoped<ICityService, CityManager>();
             services.AddScoped<IActivityService, ActivityManager>();
             services.AddScoped<IUserActivityService, UserActivityManager>();
+            services.AddScoped<IFirmService, FirmManager>();
 
             return services;
         }

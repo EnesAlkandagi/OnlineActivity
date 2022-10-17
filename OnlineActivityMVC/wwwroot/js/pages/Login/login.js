@@ -11,6 +11,7 @@ var KTLogin = function () {
         _login.removeClass('login-forgot-on');
         _login.removeClass('login-signin-on');
         _login.removeClass('login-signup-on');
+        _login.removeClass('login-signupFirm-on')
 
         _login.addClass(cls);
 
@@ -135,6 +136,12 @@ var KTLogin = function () {
         $('#kt_login_signup').on('click', function (e) {
             e.preventDefault();
             _showForm('signup');
+        });
+
+        $('#kt_login_signupFirm').on('click', function (e) {
+            e.preventDefault();
+            _showForm('signupFirm');
+            console.log("abc");
         });
     }
 
@@ -306,6 +313,174 @@ var KTLogin = function () {
         });
     }
 
+    var _handleSignUpFirmForm = function (e) {
+        var validation;
+        var form = KTUtil.getById('kt_login_signupFirm_form');
+
+        // Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
+        validation = FormValidation.formValidation(
+            form,
+            {
+                fields: {
+                    Name: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Ad alanı zorunludur.'
+                            }
+                        }
+                    },
+                    Web: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Soyad alanı zorunludur.'
+                            }
+                        }
+                    },
+                    Eposta: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Email alanı zorunludur.'
+                            },
+                            emailAddress: {
+                                message: 'Lütfen doğru email formatında giriniz.'
+                            }
+                        }
+                    },
+                    Password: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Parola alanı zorunludur.'
+                            }
+                        }
+                    },
+                    ConfirmPassword: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Parola tekrar alanı zorunludur.'
+                            },
+                            identical: {
+                                compare: function () {
+                                    return form.querySelector('[name="password"]').value;
+                                },
+                                message: 'Paralonız ile eşleşmemektedir.'
+                            }
+                        }
+                    },
+                    agree: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Tüm şartları ve koşullarını onaylayınız.'
+                            }
+                        }
+                    },
+                },
+                plugins: {
+                    trigger: new FormValidation.plugins.Trigger(),
+                    bootstrap: new FormValidation.plugins.Bootstrap()
+                }
+            }
+        );
+
+        $('#kt_login_signupFirm_submit').on('click', function (e) {
+
+            e.preventDefault();
+
+            var _name = $("input[name=Name]").val();
+            var _web = $("input[name=Web]").val();
+            var _email = $("input[name=EpostaFirm]").val();
+            var _pass = $("input[name=RPasswordFirm]").val();
+            var _cPass = $("input[name=ConfirmPasswordFirm]").val();
+
+
+
+            var _authViewModel2 = {
+                firmRegisterDto: {
+                    Name: _name,
+                    Website: _web,
+                    Email: _email,
+                    Password: _pass,
+                    ConfirmPassword: _cPass
+                }
+            }
+
+            validation.validate().then(function (status) {
+                if (status == 'Valid') {
+                    $.ajax({
+                        type: "POST",
+                        url: "/Auth/RegisterFirm",
+                        dataType: 'json',
+                        data: _authViewModel2,
+                        success: function (response) {
+                            if (response.success) {
+                                swal.fire({
+                                    text: "Kaydınız başarıyla oluşturulmuştur.",
+                                    icon: "success",
+                                    buttonsStyling: false,
+                                    confirmButtonText: "Tamam",
+                                    customClass: {
+                                        confirmButton: "btn font-weight-bold btn-light-primary"
+                                    }
+                                }).then(function () {
+                                    $("input[name=Name]").val('');
+                                    $("input[name=Web]").val('');
+                                    $("input[name=EpostaFirm]").val('');
+                                    $("input[name=RPasswordFirm]").val('');
+                                    $("input[name=ConfirmPasswordFirm]").val('');
+                                    _showForm('signin');
+                                });
+                            } else {
+                                swal.fire({
+                                    text: response.message,
+                                    icon: "error",
+                                    buttonsStyling: false,
+                                    confirmButtonText: "Tamam",
+                                    customClass: {
+                                        confirmButton: "btn font-weight-bold btn-light-primary"
+                                    }
+                                }).then(function () {
+                                    KTUtil.scrollTop();
+                                });
+                            }
+                        },
+                        error: function () {
+                            swal.fire({
+                                text: "Üzgünüm, kayıt olurken bir sorunla karşılaştık.",
+                                icon: "error",
+                                buttonsStyling: false,
+                                confirmButtonText: "Tamam",
+                                customClass: {
+                                    confirmButton: "btn font-weight-bold btn-light-primary"
+                                }
+                            }).then(function () {
+                                KTUtil.scrollTop();
+                            });
+                        },
+                    });
+
+                } else {
+                    swal.fire({
+                        text: "Üzgünüm, kayıt olurken bir sorunla karşılaştık.",
+                        icon: "error",
+                        buttonsStyling: false,
+                        confirmButtonText: "Tamam",
+                        customClass: {
+                            confirmButton: "btn font-weight-bold btn-light-primary"
+                        }
+                    }).then(function () {
+                        KTUtil.scrollTop();
+                    });
+                }
+            });
+        });
+
+        // Handle cancel button
+        $('#kt_login_signupFirm_cancel').on('click', function (e) {
+            e.preventDefault();
+
+            _showForm('signin');
+        });
+    }
+
     var _handleForgotForm = function (e) {
         var validation;
 
@@ -426,6 +601,7 @@ var KTLogin = function () {
 
             _handleSignInForm();
             _handleSignUpForm();
+            _handleSignUpFirmForm();
 /*            _handleForgotForm();*/
         }
     };

@@ -8,7 +8,7 @@ using Entities.Dtos.Concrete.UserDtos;
 
 namespace Business.Concrete
 {
-    public class AuthManager : IAuthService
+    internal class AuthManager : IAuthService
     {
         private IUserDal _userDal;
         private IUserService _userService;
@@ -53,7 +53,7 @@ namespace Business.Concrete
             {
                 return new ErrorDataResult<User>("Bu mail adresi kullanılmaktadır.");
             }
-            if (userRegisterDto.Password.Length < 8 && (!userRegisterDto.Password.Any(Char.IsLetter) || !userRegisterDto.Password.Any(Char.IsDigit)))
+            if (!(userRegisterDto.Password.Length >= 8 && (userRegisterDto.Password.Any(Char.IsLetter) && userRegisterDto.Password.Any(Char.IsDigit))))
             {
                 return new ErrorDataResult<User>("Parola en 8 karakter olmalı ayrıca harf ve sayı içermelidir.");
             }

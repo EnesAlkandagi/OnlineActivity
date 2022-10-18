@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Concrete.EntityFrameworkDal
 {
-    public class EfCategoryDal : EfEntityRepositoryBase<Category, OnlineActivityContext>, ICategoryDal
+    internal class EfCategoryDal : EfEntityRepositoryBase<Category, OnlineActivityContext>, ICategoryDal
     {
         public EfCategoryDal(OnlineActivityContext context) : base(context)
         {

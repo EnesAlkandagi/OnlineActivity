@@ -1,4 +1,7 @@
-﻿using Entities.Concrete;
+﻿using Core.Utilities.Security.Hashing;
+using Entities.Concrete;
+using Entities.Dtos.Concrete.UserDtos;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -19,6 +22,18 @@ namespace DataAccess.Context
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB; Database=OnlineActivity; Trusted_Connection=true");
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            byte[] passwordHash, passwordSalt;
+
+            HashingHelper.CreatePasswordHash("admin123", out passwordHash, out passwordSalt);
+            modelBuilder.Entity<User>().HasData(new User { Id = 1, FirstName = "ADMİN", LastName = "ADMİN", Email = "admin@gmail.com", PasswordHash = passwordHash, PasswordSalt = passwordSalt });
+            modelBuilder.Entity<Role>().HasData(
+                new Role { Id = 1, Name = "USER" },
+                new Role { Id = 2, Name = "ADMİN" });
+            modelBuilder.Entity<UserRole>().HasData(new UserRole { Id = 1, RoleId = 2, UserId = 1 });
         }
 
         public DbSet<User> Users { get; set; }

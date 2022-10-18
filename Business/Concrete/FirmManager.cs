@@ -7,6 +7,7 @@ using DataAccess.Concrete.EntityFrameworkDal;
 using Entities.Concrete;
 using Entities.Dtos.Concrete.CategoryDtos;
 using Entities.Dtos.Concrete.FirmDtos;
+using Entities.Dtos.Concrete.UserDtos;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -34,6 +35,10 @@ namespace Business.Concrete
             if (isFirmExist is not null)
             {
                 return new ErrorDataResult<Firm>("Aynı isimde firma mevcuttur!");
+            }
+            if (!(firmCreateDto.Password.Length >= 8 && (firmCreateDto.Password.Any(Char.IsLetter) && firmCreateDto.Password.Any(Char.IsDigit))))
+            {
+                return new ErrorDataResult<Firm>("Parola en 8 karakter olmalı ayrıca harf ve sayı içermelidir.");
             }
 
             HashingHelper.CreatePasswordHash(firmCreateDto.Password, out passwordHash, out passwordSalt);

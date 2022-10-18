@@ -5,7 +5,7 @@ using Entities.Concrete;
 
 namespace DataAccess.Concrete.EntityFrameworkDal;
 
-public class EfUserActivityDal: EfEntityRepositoryBase<UserActivity, OnlineActivityContext>, IUserActivityDal
+internal class EfUserActivityDal: EfEntityRepositoryBase<UserActivity, OnlineActivityContext>, IUserActivityDal
 {
     public EfUserActivityDal(OnlineActivityContext context) : base(context)
     {

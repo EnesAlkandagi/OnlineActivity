@@ -7,7 +7,7 @@ using Entities.Enums;
 
 namespace Business.Concrete;
 
-public class UserActivityManager : IUserActivityService
+internal class UserActivityManager : IUserActivityService
 {
     private readonly IUserDal _userDal;
     private readonly IActivityDal _activityDal;

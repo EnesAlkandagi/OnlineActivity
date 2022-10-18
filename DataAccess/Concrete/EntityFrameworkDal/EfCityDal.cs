@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Concrete.EntityFrameworkDal
 {
-    public class EfCityDal : EfEntityRepositoryBase<City, OnlineActivityContext>, ICityDal
+    internal class EfCityDal : EfEntityRepositoryBase<City, OnlineActivityContext>, ICityDal
     {
         public EfCityDal(OnlineActivityContext context) : base(context)
         {

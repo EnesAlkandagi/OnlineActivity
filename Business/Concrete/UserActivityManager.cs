@@ -39,8 +39,7 @@ internal class UserActivityManager : IUserActivityService
             return new ErrorResult("Etkinlik kontenjanı dolmuştur.");
         }
 
-        var isUserAlreadyJoined =
-            _userActivityDal.Get(ua => ua.UserId == isActivityExist.Id && ua.ActivityId == isActivityExist.Id);
+        var isUserAlreadyJoined = _userActivityDal.Get(ua => ua.UserId == isUserExist.Id && ua.ActivityId == isActivityExist.Id);
 
         if (isUserAlreadyJoined is not null)
         {
